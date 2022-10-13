@@ -1,0 +1,25 @@
+# aka application.properties
+
+# server configs
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# springboot configs
+spring:
+  # our database
+  datasource:
+    url: jdbc:postgresql://localhost:5432/registration
+    username:
+    password:
+
+  # our ORM
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
