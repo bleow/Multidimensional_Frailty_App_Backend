@@ -12,23 +12,47 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@Entity
 
 public class User implements UserDetails {
 
+    @Id
+    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
     private Long id;
+
     private String name;
     private String username;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private UserRole userRole;
     private Boolean isLocked;
     private Boolean isEnabled;
 
-    
+    public User(String name, String username, String email, String password, UserRole userRole, Boolean isLocked,
+            Boolean isEnabled) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+        this.isLocked = isLocked;
+        this.isEnabled = isEnabled;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

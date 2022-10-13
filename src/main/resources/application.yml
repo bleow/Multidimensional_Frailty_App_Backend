@@ -10,9 +10,9 @@ server:
 spring:
   # our database
   datasource:
-    url: jdbc:postgresql://localhost:5432/registration
-    username:
-    password:
+    url: jdbc:postgresql://localhost:5432/db
+    username: postgres
+    password: 1111
 
   # our ORM
   jpa:
@@ -22,4 +22,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+        # https://stackoverflow.com/questions/47603204/spring-boot-jpa-error-error-executing-ddl-via-jdbc-statement
+        globally_quoted_identifiers: true
     show-sql: true
