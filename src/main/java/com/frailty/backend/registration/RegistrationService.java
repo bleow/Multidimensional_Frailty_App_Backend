@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public class RegistrationService {
 
     public String register(RegistrationRequest request) {
-        return "hi";
+        return "Account created";
     }
 
 }
