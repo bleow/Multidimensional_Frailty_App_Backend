@@ -1,6 +1,17 @@
 package com.frailty.backend.questionaire.social;
 
-import com.frailty.backend.questionaire.QuestionaireRequest;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
-public class SocialQuestionaireRequest extends QuestionaireRequest {
+import java.util.Map;
+
+@Getter
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class SocialQuestionaireRequest{
+    private final Map<Integer, String> answer;
+
 }
