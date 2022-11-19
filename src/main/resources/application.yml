@@ -17,6 +17,7 @@ spring:
   # our ORM
   jpa:
     hibernate:
+      # todo: change to not drop all tables on reinit
       ddl-auto: create-drop
     properties:
       hibernate:
@@ -25,3 +26,21 @@ spring:
         # https://stackoverflow.com/questions/47603204/spring-boot-jpa-error-error-executing-ddl-via-jdbc-statement
         globally_quoted_identifiers: true
     show-sql: true
+
+  mail:
+    host: localhost
+    port: 1025
+    username: username
+    password: 1111
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000

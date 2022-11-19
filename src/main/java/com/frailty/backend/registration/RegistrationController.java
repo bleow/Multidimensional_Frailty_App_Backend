@@ -1,9 +1,6 @@
 package com.frailty.backend.registration;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
 
@@ -19,4 +16,13 @@ public class RegistrationController {
         return registrationService.register(request);
     }
 
+    @PostMapping(path = "resend")
+    public String resendToken(@RequestParam("email") String email) {
+        return registrationService.resendToken(email);
+    }
+
+    @GetMapping(path = "confirm")
+    public String confirm(@RequestParam("token") String token) {
+        return registrationService.confirmToken(token);
+    }
 }

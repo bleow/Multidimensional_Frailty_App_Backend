@@ -2,6 +2,7 @@ package com.frailty.backend.user;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,31 +22,29 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
     @Id
-    @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
-    private Long id;
-
-    private String name;
-    private String username;
+    @GeneratedValue
+    // default is uuid4 (random) generation strategy
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-    private Boolean isLocked;
-    private Boolean isEnabled;
+    private Boolean isLocked = false;
+    // only enable once they confirm their email.
+    private Boolean isEnabled = false;
 
-    public User(String name, String username, String email, String password, UserRole userRole, Boolean isLocked,
-            Boolean isEnabled) {
-        this.name = name;
-        this.username = username;
+    public User(String firstName, String lastName, String email, String password, UserRole userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
-        this.isLocked = isLocked;
-        this.isEnabled = isEnabled;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

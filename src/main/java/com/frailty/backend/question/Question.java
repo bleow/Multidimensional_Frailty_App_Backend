@@ -3,7 +3,6 @@ package com.frailty.backend.question;
 import javax.persistence.*;
 
 @Entity
-@Table(name="question")
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
