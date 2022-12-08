@@ -1,4 +1,4 @@
-package com.frailty.backend.security;
+package com.frailty.backend.appuser.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

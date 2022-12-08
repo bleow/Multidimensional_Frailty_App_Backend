@@ -1,8 +1,7 @@
-package com.frailty.backend.user;
+package com.frailty.backend.appuser;
 
 import com.frailty.backend.localisation.Localiser;
-import com.frailty.backend.registration.token.ConfirmationToken;
-import com.frailty.backend.registration.token.ConfirmationTokenService;
+import com.frailty.backend.appuser.registration.token.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,55 +11,54 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class UserService implements UserDetailsService {
+public class AppUserService implements UserDetailsService {
 
     private Localiser localiser;
-    private final UserRepository userRepository;
+    private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        return appUserRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(localiser.notFound("Email", email)));
     }
 
     @Transactional
-    public String signup(String firstName, String lastName, String email, String password, UserRole userRole ) {
-        boolean isUserExisting = userRepository.findByEmail(email).isPresent();
+    public String signup(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
+        boolean isUserExisting = appUserRepository.findByEmail(email).isPresent();
         if (isUserExisting) {
             throw new IllegalStateException(localiser.duplicate("Email", email));
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(password);
-        User user = new User(firstName, lastName, email, encodedPassword, userRole);
+        AppUser appUser = new AppUser(firstName, lastName, email, encodedPassword, appUserRole);
 
-        userRepository.save(user);
+        appUserRepository.save(appUser);
 
-        String token = confirmationTokenService.generateConfirmationToken(user);
+        String token = confirmationTokenService.generateConfirmationToken(appUser);
         return token;
     }
 
     public List<String> resendConfirmationToken(String email) {
-        User user = userRepository.findByEmail(email).orElse(null);
-        if (Objects.isNull(user)) {
+        AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
+        if (Objects.isNull(appUser)) {
             throw new IllegalStateException(localiser.notFound("Email", email));
         }
 
-        String token = confirmationTokenService.generateConfirmationToken(user);
+        String token = confirmationTokenService.generateConfirmationToken(appUser);
         List<String> res = new ArrayList<>();
-        res.add(user.getFirstName());
+        res.add(appUser.getFirstName());
         res.add(token);
         return res;
     }
 
     public int enableUser(String email) {
-        return userRepository.updateEnabledUser(email);
+        return appUserRepository.updateEnabledUser(email);
     }
 
 }

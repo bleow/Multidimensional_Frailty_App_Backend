@@ -1,13 +1,14 @@
-package com.frailty.backend.registration;
+package com.frailty.backend.appuser.registration;
 
 import com.frailty.backend.email.ConfirmationTokenEmail;
 import com.frailty.backend.email.ISendEmail;
 import com.frailty.backend.localisation.Localiser;
-import com.frailty.backend.registration.token.ConfirmationToken;
-import com.frailty.backend.registration.token.ConfirmationTokenService;
-import com.frailty.backend.user.UserRole;
-import com.frailty.backend.user.UserService;
+import com.frailty.backend.appuser.registration.token.ConfirmationToken;
+import com.frailty.backend.appuser.registration.token.ConfirmationTokenService;
+import com.frailty.backend.appuser.AppUserRole;
+import com.frailty.backend.appuser.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 public class RegistrationService {
     private static final String URL = "http://localhost:8080/api/v1/";
-    private final UserService userService;
+    private final AppUserService appUserService;
     private ConfirmationTokenService confirmationTokenService;
     private EmailValidator emailValidator;
     private Localiser localiser;
+    @Autowired
     private final ISendEmail emailSender;
 
     public String register(RegistrationRequest request) {
@@ -29,7 +31,7 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException(localiser.invalid("Email", request.getEmail()));
         }
-        String token = userService.signup(request.getFirstName(),request.getLastName(), request.getEmail(), request.getPassword(), UserRole.PATIENT);
+        String token = appUserService.signup(request.getFirstName(),request.getLastName(), request.getEmail(), request.getPassword(), AppUserRole.PATIENT);
         String link = URL + "registration/confirm?token=" + token;
         emailSender.send(request.getEmail(), ConfirmationTokenEmail.build(request.getFirstName(), link));
         return token;
@@ -40,7 +42,7 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException(localiser.invalid("Email", email));
         }
-        List<String> res = userService.resendConfirmationToken(email);
+        List<String> res = appUserService.resendConfirmationToken(email);
         String link = URL + "registration/confirm?token=" + res.get(1);
         emailSender.send(email, ConfirmationTokenEmail.build(res.get(0), link));
         return res.get(1);
@@ -63,10 +65,10 @@ public class RegistrationService {
         if (res != 1) {
             throw new IllegalStateException(localiser.fail("Confirmation token was not set as confirmed."));
         }
-        int res2 = userService.enableUser(confirmationToken.getUser().getEmail());
+        int res2 = appUserService.enableUser(confirmationToken.getAppUser().getEmail());
         if (res2 != 1) {
             throw new IllegalStateException(localiser.fail("User was not set as enabled."));
         }
-        return localiser.success("User registration");
+        return localiser.success("User registered");
     }
 }

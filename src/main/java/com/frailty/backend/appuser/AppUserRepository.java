@@ -1,4 +1,4 @@
-package com.frailty.backend.user;
+package com.frailty.backend.appuser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+    Optional<AppUser> findByEmail(String email);
 
     @Modifying
-    @Query("UPDATE User a " +
+    @Query("UPDATE AppUser a " +
             "SET a.isEnabled = TRUE WHERE a.email = ?1")
     int updateEnabledUser(String email);
 }

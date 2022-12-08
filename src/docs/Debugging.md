@@ -56,6 +56,16 @@ Compile-Time
 > Double check names of tables (should be name of class) and columns (should be name of attributes)
 > ```
 
+### Reason: Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException: Executing an update/delete query
+> #### ❓ Why:
+> > You cannot run update/delete query in that file, e.g. in a seeder file that implements CommandLineRunner
+
+> #### ✅ Fix:
+> ```aidl
+> 1) Locate the source file and exact line causing the error (go down the stack trace).
+> 2) Refactor your code to not call update/delete statements there.
+> ```
+
 Run-Time (Postman)
 --
 ### "message": "No default constructor for entity:  : com.frailty.backend ...

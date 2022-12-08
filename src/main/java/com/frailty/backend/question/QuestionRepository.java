@@ -1,7 +1,11 @@
 package com.frailty.backend.question;
 
-import com.frailty.backend.answer.Answer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface QuestionRepository extends JpaRepository<Answer, Integer> {
+import java.util.List;
+
+@Repository
+public interface QuestionRepository extends JpaRepository<Question, Integer> {
+    List<Question> findByQuestionType(QuestionType questionType);
 }

@@ -2,8 +2,7 @@ package com.frailty.backend.email;
 
 import com.frailty.backend.localisation.Localiser;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -14,10 +13,9 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 @AllArgsConstructor
+@Slf4j //equivalent to private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 public class EmailService implements ISendEmail {
     private static final String EMAIL_SENDER = "ARISE_App@ntu.edu.sg";
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     private final JavaMailSender javaMailSender;
 
@@ -35,7 +33,7 @@ public class EmailService implements ISendEmail {
             helper.setFrom(EMAIL_SENDER);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            LOGGER.error("Failed to send email", e);
+            log.error("Failed to send email", e);
             throw new IllegalStateException(localiser.fail("Failed to send email."));
         }
     }

@@ -1,32 +1,27 @@
 package com.frailty.backend.question;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer Id;
 
-    private String QuestionType;
-    private Integer QuestionId;
-    private String QuestionText;
+    private QuestionType questionType;
+    private Integer questionId;
+    private String questionText;
 
-    public Question() {
-
-    }
-
-    public Question(String questionType, String questionText) {
-        this.QuestionType = questionType;
-        this.QuestionText = questionText;
-    }
-
-    @Column(name = "question_type", nullable = false)
-    public String getQuestionType() {
-        return QuestionType;
-    }
-    @Column(name = "question", nullable = false)
-    public String getQuestionText() {
-        return QuestionText;
+    public Question(QuestionType questionType, Integer questionId, String questionText) {
+        this.questionType = questionType;
+        this.questionId = questionId;
+        this.questionText = questionText;
     }
 }

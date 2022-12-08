@@ -1,4 +1,4 @@
-package com.frailty.backend.registration.token;
+package com.frailty.backend.appuser.registration.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

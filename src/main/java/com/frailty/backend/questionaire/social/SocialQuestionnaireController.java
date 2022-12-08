@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.frailty.backend.answer.Answer;
+import com.frailty.backend.question.Question;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.AllArgsConstructor;
@@ -12,16 +15,21 @@ import lombok.AllArgsConstructor;
 @RequestMapping(path = "api/v1/social")
 @AllArgsConstructor
 public class SocialQuestionnaireController {
-    private SocialQuestionaireService socialService;
+    @Autowired
+    private SocialQuestionnaireService socialService;
 
     @GetMapping
-    public Map<Integer, String> all() {
+    public List<Question> all() {
         return socialService.getQuestions();
     }
 
     @PostMapping
-    public Boolean answers(@RequestBody Map<Integer, String> answer) { return socialService.postAnswers(answer); }
+    public ResponseEntity<Boolean> answers(@RequestBody Map<Integer, String> answer) {
+        return ResponseEntity.ok(socialService.postAnswers(answer));
+    }
 
     @GetMapping("/answers")
-    public List<Answer> answers() { return socialService.getAnswers(); }
+    public ResponseEntity<List<Answer>> answers() {
+        return ResponseEntity.ok(socialService.getAnswers());
+    }
 }

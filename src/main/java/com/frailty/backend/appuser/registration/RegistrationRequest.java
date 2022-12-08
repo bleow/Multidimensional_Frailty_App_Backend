@@ -1,4 +1,4 @@
-package com.frailty.backend.registration;
+package com.frailty.backend.appuser.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

@@ -1,23 +1,26 @@
 package com.frailty.backend.questionaire.social;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.frailty.backend.answer.Answer;
 import com.frailty.backend.answer.AnswerRepository;
+import com.frailty.backend.question.Question;
+import com.frailty.backend.question.QuestionRepository;
+import com.frailty.backend.question.QuestionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SocialQuestionaireService {
+public class SocialQuestionnaireService {
+    @Autowired
+    private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
 
-    public Map<Integer, String> getQuestions() {
-        Map<Integer, String> res = new HashMap<>();
-        res.put(0, "Do you sometimes visit your friend?");
-        return res;
+    public List<Question> getQuestions() {
+        List<Question> socialQuestions = questionRepository.findByQuestionType(QuestionType.SOCIAL);
+        return socialQuestions;
     }
 
     public Boolean postAnswers(Map<Integer, String> answer) {

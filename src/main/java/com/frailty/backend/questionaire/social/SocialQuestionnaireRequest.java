@@ -11,7 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class SocialQuestionaireRequest{
+public class SocialQuestionnaireRequest {
     private final Map<Integer, String> answer;
 
 }

@@ -1,6 +1,6 @@
-package com.frailty.backend.registration.token;
+package com.frailty.backend.appuser.registration.token;
 
-import com.frailty.backend.user.User;
+import com.frailty.backend.appuser.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class ConfirmationTokenService {
-    public static final int MAX_VALID_MINUTES = 30;
+    public static final int MAX_REGISTRATION_TOKEN_VALID_MINUTES = 30;
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     public Optional<ConfirmationToken> getConfirmationToken(String token) {
@@ -22,9 +22,9 @@ public class ConfirmationTokenService {
         return confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
     }
 
-    public String generateConfirmationToken(User user) {
+    public String generateConfirmationToken(AppUser appUser) {
         String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(MAX_VALID_MINUTES), user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(MAX_REGISTRATION_TOKEN_VALID_MINUTES), appUser);
         confirmationTokenRepository.save(confirmationToken);
         return token;
     }

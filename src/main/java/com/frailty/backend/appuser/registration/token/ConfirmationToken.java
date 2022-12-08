@@ -1,6 +1,6 @@
-package com.frailty.backend.registration.token;
+package com.frailty.backend.appuser.registration.token;
 
-import com.frailty.backend.user.User;
+import com.frailty.backend.appuser.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,12 +27,12 @@ public class ConfirmationToken {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private User user;
+    private AppUser appUser;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, User userId) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, AppUser appUserId) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
-        this.user = userId;
+        this.appUser = appUserId;
     }
 }
