@@ -1,7 +1,13 @@
 # aka application.properties
 
+# rsa
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
+
 # server configs
 server:
+  port: 8080
   error:
     include-message: always
     include-binding-errors: always
@@ -13,6 +19,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/db
     username: postgres
     password: 1111
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
 
   # our ORM
   jpa:
