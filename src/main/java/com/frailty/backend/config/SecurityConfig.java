@@ -37,7 +37,7 @@ public class SecurityConfig {
         // NEVER have csrf disabled + session management enabled.
         http.csrf().disable() // disable cross site request forgery. to allow request to be sent
                 .authorizeRequests()
-                .antMatchers("/swagger-ui/**", "/swagger-ui/html", "/swagger-resources/**", "v*/api-docs", "/webjars/**").permitAll()
+                .antMatchers("/api/v*/registration/**", "/swagger-ui/**", "/swagger-ui/html", "/swagger-resources/**", "v*/api-docs", "/webjars/**").permitAll()
                 .anyRequest().authenticated().and().formLogin();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

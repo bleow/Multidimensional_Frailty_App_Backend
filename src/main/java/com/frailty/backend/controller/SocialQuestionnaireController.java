@@ -25,14 +25,10 @@ public class SocialQuestionnaireController {
         return socialService.getQuestions();
     }
 
-    // https://stackoverflow.com/questions/49529760/springboot-get-username-from-authentication-via-controller
     @PostMapping
     public ResponseEntity<Boolean> answers(Authentication authentication, @RequestBody QuestionnaireRequest answer) {
         return ResponseEntity.ok(socialService.postAnswers(authentication.getName(), answer));
     }
+    // https://stackoverflow.com/questions/49529760/springboot-get-username-from-authentication-via-controller
 
-    @GetMapping("/answers")
-    public ResponseEntity<List<Answer>> answers() {
-        return ResponseEntity.ok(socialService.getAnswers());
-    }
 }

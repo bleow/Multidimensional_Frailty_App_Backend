@@ -47,9 +47,9 @@ public class AppUserService implements UserDetailsService {
     }
 
     public List<String> resendConfirmationToken(String email) {
-        AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
-        if (Objects.isNull(appUser)) {
-            throw new IllegalStateException(localiser.notFound("Email", email));
+        AppUser appUser = getValidUser(email);
+        if (appUser.isEnabled()) {
+            throw new IllegalStateException(localiser.duplicate("validated account", email));
         }
 
         String token = confirmationTokenService.generateConfirmationToken(appUser);
@@ -57,6 +57,14 @@ public class AppUserService implements UserDetailsService {
         res.add(appUser.getFirstName());
         res.add(token);
         return res;
+    }
+
+    public AppUser getValidUser(String email) {
+        AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
+        if (Objects.isNull(appUser)) {
+            throw new IllegalStateException(localiser.notFound("Email", email));
+        }
+        return appUser;
     }
 
     public int enableUser(String email) {
