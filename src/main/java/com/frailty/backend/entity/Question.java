@@ -1,6 +1,7 @@
 package com.frailty.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.frailty.backend.entity.scoring.ScoringStrategy;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,18 +23,20 @@ public class Question {
     // https://stackoverflow.com/questions/55166779/how-to-remove-some-fields-of-an-object-in-spring-boot-response-control
 
     @Column(nullable = false)
-    private Integer questionId;
+    private Integer questionNumber;
 
     @Column(nullable = false)
     private String questionText;
 
-    @Column(nullable = false)
-    private Integer maxScore;
+    @OneToOne
+    @JoinColumn(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ScoringStrategy strategy;
 
-    public Question(QuestionType questionType, Integer questionId, String questionText, Integer maxScore) {
+    public Question(QuestionType questionType, Integer questionNumber, String questionText, ScoringStrategy strategy) {
         this.questionType = questionType;
-        this.questionId = questionId;
+        this.questionNumber = questionNumber;
         this.questionText = questionText;
-        this.maxScore = maxScore;
+        this.strategy = strategy;
     }
 }

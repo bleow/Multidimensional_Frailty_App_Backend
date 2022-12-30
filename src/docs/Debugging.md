@@ -47,7 +47,7 @@ Compile-Time
 > 1) Put @Entity on top of the class causing the error.
 > ```
 
-### Reason: Validation failed for query for method public abstract []
+### Validation failed for query for method public abstract []
 > #### ❓ Why:
 > > The PSQL statement written is wrong.
 
@@ -56,7 +56,7 @@ Compile-Time
 > Double check names of tables (should be name of class) and columns (should be name of attributes)
 > ```
 
-### Reason: Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException: Executing an update/delete query
+### Executing an update/delete query; nested exception is javax.persistence.TransactionRequiredException: Executing an update/delete query
 > #### ❓ Why:
 > > You cannot run update/delete query in that file, e.g. in a seeder file that implements CommandLineRunner
 
@@ -64,6 +64,16 @@ Compile-Time
 > ```aidl
 > 1) Locate the source file and exact line causing the error (go down the stack trace).
 > 2) Refactor your code to not call update/delete statements there.
+> ```
+
+### Could not determine type for java.util.list
+> #### ❓ Why:
+> You cannot store a list in a database column because it likely breaks normalisation (multi-valued attribute), so Spring Boot tells you it is an error.
+
+> #### ✅ Fix:
+> ```aidl
+> 1) If the list refers to child entities, add @OneToMany to the list
+> 2) If the list is intentional, all @ElementCollection to tell Spring Boot it's okay
 > ```
 
 Run-Time (Postman)

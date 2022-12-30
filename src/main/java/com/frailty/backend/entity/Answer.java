@@ -1,30 +1,35 @@
 package com.frailty.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue()
+    private UUID id;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime datetime;
 
     @Column(nullable = false)
     private String answerText;
 
     @Column(nullable = false)
-    private Integer answerScore;
+    private Double answerScore;
 
     @OneToOne
     @JoinColumn(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private AppUser appUser;
 
     @OneToOne
@@ -32,15 +37,10 @@ public class Answer {
     private Question question;
 
 
-
-    // constructor when retrieving from db
-    public Answer() {
-    }
-
     // constructor when posting to db
-    public Answer(AppUser appUser, LocalDateTime time, Question question, String answerText, Integer answerScore) {
+    public Answer(AppUser appUser, LocalDateTime datetime, Question question, String answerText, Double answerScore) {
         this.appUser = appUser;
-        this.time = time;
+        this.datetime = datetime;
         this.question = question;
         this.answerText = answerText;
         this.answerScore = answerScore;

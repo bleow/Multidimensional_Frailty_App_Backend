@@ -60,10 +60,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public AppUser getValidUser(String email) {
-        AppUser appUser = appUserRepository.findByEmail(email).orElse(null);
-        if (Objects.isNull(appUser)) {
-            throw new IllegalStateException(localiser.notFound("Email", email));
-        }
+        AppUser appUser = appUserRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException(localiser.notFound("Email", email)));
         return appUser;
     }
 
